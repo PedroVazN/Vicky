@@ -1,22 +1,10 @@
-// Função para verificar se é o dia 13 de janeiro de 2026
+// Função para verificar se é o dia 13 de janeiro de 2026 (a partir da meia-noite)
 function checkDate() {
-    // TEMPORARIAMENTE LIBERADO PARA TESTES
-    // Para bloquear novamente, descomente o código abaixo e remova o return true
-    return true;
+    const now = new Date();
+    const targetDate = new Date(2026, 0, 13, 0, 0, 0); // 13 de janeiro de 2026, 00:00:00
     
-    /* CÓDIGO ORIGINAL (comentado temporariamente):
-    const today = new Date();
-    const month = today.getMonth() + 1; // Janeiro é 0, então adicionamos 1
-    const day = today.getDate();
-    const year = today.getFullYear();
-    
-    // Verifica se é 13 de janeiro de 2026 (mês 1, dia 13, ano 2026)
-    if (month === 1 && day === 13 && year === 2026) {
-        return true;
-    }
-    
-    return false;
-    */
+    // Verifica se a data/hora atual é igual ou posterior à meia-noite do dia 13
+    return now >= targetDate;
 }
 
 // Função para mostrar ou esconder o conteúdo
@@ -71,7 +59,7 @@ function updateMessages() {
         "Você não faz ideia do quanto eu gosto de você e do quanto sou orgulhoso de ver você enfrentando a vida com tanta força e determinação. " +
         "Você é inspiradora! ✨<br><br>" +
         "Que seus 19 anos sejam repletos de felicidade, sonhos realizados e momentos inesquecíveis! " +
-        "Espero estar ao seu lado em varios um deles! 🎂🎉<br><br>" +
+        "Espero estar ao seu lado em varios deles! 🎂🎉<br><br>" +
         "Feliz aniversario! 💝";
     }
 }
@@ -318,17 +306,78 @@ function initCounter() {
     setInterval(updateCounter, 1000);
 }
 
+// Função para atualizar o contador regressivo na tela de bloqueio
+function updateCountdown() {
+    const now = new Date();
+    const targetDate = new Date(2026, 0, 13, 0, 0, 0); // 13 de janeiro de 2026, 00:00:00
+    const diff = targetDate - now;
+    
+    if (diff <= 0) {
+        // Já passou da data, libera o site
+        toggleContent();
+        return;
+    }
+    
+    // Calcula dias, horas, minutos e segundos restantes
+    const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+    const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+    const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+    const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+    
+    // Atualiza os elementos na tela de bloqueio
+    const countdownElement = document.getElementById('countdown');
+    if (countdownElement) {
+        countdownElement.innerHTML = `
+            <div class="countdown-item">
+                <div class="countdown-number">${days}</div>
+                <div class="countdown-label">Dias</div>
+            </div>
+            <div class="countdown-separator">:</div>
+            <div class="countdown-item">
+                <div class="countdown-number">${hours.toString().padStart(2, '0')}</div>
+                <div class="countdown-label">Horas</div>
+            </div>
+            <div class="countdown-separator">:</div>
+            <div class="countdown-item">
+                <div class="countdown-number">${minutes.toString().padStart(2, '0')}</div>
+                <div class="countdown-label">Minutos</div>
+            </div>
+            <div class="countdown-separator">:</div>
+            <div class="countdown-item">
+                <div class="countdown-number">${seconds.toString().padStart(2, '0')}</div>
+                <div class="countdown-label">Segundos</div>
+            </div>
+        `;
+    }
+}
+
 // Inicialização quando a página carrega
 document.addEventListener('DOMContentLoaded', function() {
     toggleContent();
-    updateMessages();
-    addPhotos();
-    addVideo();
-    initScrollAnimations();
-    initCounter();
+    updateCountdown();
     
-    // Verifica a data a cada minuto (caso a pessoa deixe a página aberta)
-    setInterval(toggleContent, 60000);
+    // Se o site ainda estiver bloqueado, atualiza o contador a cada segundo
+    if (!checkDate()) {
+        setInterval(function() {
+            updateCountdown();
+            // Verifica se já pode liberar
+            if (checkDate()) {
+                toggleContent();
+                updateMessages();
+                addPhotos();
+                addVideo();
+                initScrollAnimations();
+                initCounter();
+            }
+        }, 1000); // Atualiza a cada segundo
+    } else {
+        // Se já estiver liberado, carrega tudo normalmente
+        updateMessages();
+        addPhotos();
+        addVideo();
+        initScrollAnimations();
+        initCounter();
+    }
     
     // Adiciona animação suave ao scroll
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {

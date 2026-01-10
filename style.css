@@ -67,27 +67,111 @@ body::before {
 .lock-content {
     text-align: center;
     color: var(--white);
-    padding: 2rem;
-    background: rgba(255, 255, 255, 0.1);
-    border-radius: 20px;
-    backdrop-filter: blur(10px);
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+    padding: 3rem 2.5rem;
+    background: rgba(255, 255, 255, 0.15);
+    border-radius: 30px;
+    backdrop-filter: blur(15px);
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+    max-width: 600px;
+    width: 90%;
+    animation: lockPulse 3s ease-in-out infinite;
 }
 
 .lock-content h1 {
-    font-size: 3rem;
-    margin-bottom: 1rem;
+    font-size: 3.5rem;
+    margin-bottom: 1.5rem;
     animation: bounce 2s infinite;
+    text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.3);
 }
 
 .lock-content p {
-    font-size: 1.5rem;
-    margin: 0.5rem 0;
+    font-size: 1.3rem;
+    margin: 1rem 0;
+    text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.2);
 }
 
 .lock-date {
+    font-size: 1.4rem;
+    opacity: 0.95;
+    font-weight: 500;
+    margin-bottom: 2rem;
+}
+
+.countdown-container {
+    margin: 2.5rem 0;
+    padding: 2rem;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 20px;
+    border: 2px solid rgba(255, 255, 255, 0.2);
+}
+
+.countdown-title {
     font-size: 1.2rem;
+    margin-bottom: 1.5rem;
     opacity: 0.9;
+    font-weight: 500;
+}
+
+.countdown-display {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 1rem;
+    flex-wrap: wrap;
+}
+
+.countdown-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-width: 80px;
+}
+
+.countdown-number {
+    font-size: 3rem;
+    font-weight: 700;
+    text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.3);
+    line-height: 1;
+    margin-bottom: 0.5rem;
+    background: rgba(255, 255, 255, 0.2);
+    padding: 0.8rem 1.2rem;
+    border-radius: 15px;
+    min-width: 80px;
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    animation: numberPulse 1s ease-in-out infinite;
+}
+
+.countdown-label {
+    font-size: 0.9rem;
+    opacity: 0.9;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-weight: 500;
+}
+
+.countdown-separator {
+    font-size: 2.5rem;
+    font-weight: 700;
+    opacity: 0.7;
+    animation: pulse 2s ease-in-out infinite;
+}
+
+.lock-message {
+    font-size: 1.1rem;
+    margin-top: 2rem;
+    opacity: 0.85;
+    font-style: italic;
+}
+
+@keyframes numberPulse {
+    0%, 100% {
+        transform: scale(1);
+        box-shadow: 0 0 0 rgba(255, 255, 255, 0.4);
+    }
+    50% {
+        transform: scale(1.05);
+        box-shadow: 0 0 20px rgba(255, 255, 255, 0.6);
+    }
 }
 
 /* Conteúdo Principal */
@@ -1377,12 +1461,60 @@ html {
         line-height: 1.8;
     }
     
+    .lock-content {
+        padding: 2rem 1.5rem;
+        max-width: 90%;
+    }
+    
     .lock-content h1 {
-        font-size: 2rem;
+        font-size: 2.5rem;
+        margin-bottom: 1rem;
     }
     
     .lock-content p {
-        font-size: 1.2rem;
+        font-size: 1.1rem;
+    }
+    
+    .lock-date {
+        font-size: 1.1rem;
+        margin-bottom: 1.5rem;
+    }
+    
+    .countdown-container {
+        padding: 1.5rem;
+        margin: 2rem 0;
+    }
+    
+    .countdown-title {
+        font-size: 1rem;
+        margin-bottom: 1rem;
+    }
+    
+    .countdown-number {
+        font-size: 2rem;
+        padding: 0.6rem 1rem;
+        min-width: 60px;
+    }
+    
+    .countdown-label {
+        font-size: 0.75rem;
+    }
+    
+    .countdown-separator {
+        font-size: 1.8rem;
+    }
+    
+    .countdown-item {
+        min-width: 60px;
+    }
+    
+    .countdown-display {
+        gap: 0.5rem;
+    }
+    
+    .lock-message {
+        font-size: 1rem;
+        margin-top: 1.5rem;
     }
     
     .footer {
@@ -1561,5 +1693,56 @@ html {
     
     .video-wrapper iframe {
         height: 300px !important;
+    }
+    
+    .lock-content {
+        padding: 1.5rem 1rem;
+    }
+    
+    .lock-content h1 {
+        font-size: 1.8rem;
+    }
+    
+    .lock-content p {
+        font-size: 0.9rem;
+    }
+    
+    .lock-date {
+        font-size: 0.9rem;
+    }
+    
+    .countdown-container {
+        padding: 1rem;
+        margin: 1.5rem 0;
+    }
+    
+    .countdown-title {
+        font-size: 0.85rem;
+    }
+    
+    .countdown-number {
+        font-size: 1.3rem;
+        padding: 0.4rem 0.6rem;
+        min-width: 45px;
+    }
+    
+    .countdown-label {
+        font-size: 0.6rem;
+    }
+    
+    .countdown-separator {
+        font-size: 1.1rem;
+    }
+    
+    .countdown-item {
+        min-width: 45px;
+    }
+    
+    .countdown-display {
+        gap: 0.2rem;
+    }
+    
+    .lock-message {
+        font-size: 0.85rem;
     }
 }
