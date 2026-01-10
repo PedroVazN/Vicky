@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Feliz Aniversário! 🎉</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Tela de bloqueio -->
+    <div id="lockScreen" class="lock-screen">
+        <div class="lock-content">
+            <h1>🎂 Aguarde...</h1>
+            <p>Este site será liberado no dia 13 de janeiro!</p>
+            <p class="lock-date">Aguarde até lá! 💕</p>
+        </div>
+    </div>
+
+    <!-- Conteúdo principal (oculto até a data) -->
+    <div id="mainContent" class="main-content hidden">
+        <!-- Header -->
+        <header class="header">
+            <h1 class="title">🎉 Feliz Aniversário! 🎂</h1>
+            <p class="subtitle">Uma surpresa especial para você!</p>
+        </header>
+
+        <!-- Contador de Tempo Juntos -->
+        <section class="section counter-section">
+            <div class="container">
+                <div class="counter-box">
+                    <h2 class="counter-title">💕 Desde Nossa Primeira Mensagem</h2>
+                    <p class="counter-message">"Nossa quero esse colar pra mim hein"</p>
+                    <div class="counter-display">
+                        <div class="counter-item">
+                            <div class="counter-number" id="days">0</div>
+                            <div class="counter-label">Dias</div>
+                        </div>
+                        <div class="counter-separator">:</div>
+                        <div class="counter-item">
+                            <div class="counter-number" id="hours">0</div>
+                            <div class="counter-label">Horas</div>
+                        </div>
+                        <div class="counter-separator">:</div>
+                        <div class="counter-item">
+                            <div class="counter-number" id="minutes">0</div>
+                            <div class="counter-label">Minutos</div>
+                        </div>
+                        <div class="counter-separator">:</div>
+                        <div class="counter-item">
+                            <div class="counter-number" id="seconds">0</div>
+                            <div class="counter-label">Segundos</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Vídeo Principal -->
+        <section class="section hero-video">
+            <div class="container">
+                <div class="hero-video-container">
+                    <div class="video-wrapper" id="mainHeroVideo">
+                        <div class="video-placeholder hero-placeholder">
+                            <p>🎥 Adicione seu vídeo principal aqui</p>
+                            <small>Coloque o vídeo na pasta e edite o script.js</small>
+                        </div>
+                    </div>
+                    <div class="hero-video-message">
+                        <p class="hero-message-text" id="heroVideoMessage">
+                            Uma mensagem especial para acompanhar o vídeo principal! 💕
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Seção: Primeiro Encontro -->
+        <section class="section first-meeting">
+            <div class="container">
+                <h2 class="section-title">💕 Nosso Primeiro Encontro</h2>
+                <div class="message-box">
+                    <p class="message-text" id="firstMeetingMessage">
+                        Aqui você pode escrever uma mensagem especial sobre o primeiro encontro de vocês! 
+                        Edite o arquivo script.js na função updateMessages() para personalizar.
+                    </p>
+                </div>
+                <div class="photo-grid" id="firstMeetingPhotos">
+                    <div class="photo-placeholder">
+                        <p>➕ Adicione as fotos do primeiro encontro aqui</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Seção: Fotos Aleatórias -->
+        <section class="section random-photos">
+            <div class="container">
+                <h2 class="section-title">😍 Fotos Que Você Me Manda</h2>
+                <p class="section-description">Amo receber cada foto sua! 💕</p>
+                <div class="photo-grid" id="randomPhotos">
+                    <div class="photo-placeholder">
+                        <p>➕ Adicione as fotos aleatórias aqui</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Seção: Mayte -->
+        <section class="section mayte-section">
+            <div class="container">
+                <h2 class="section-title">👶 Mayte - A Menininha Mais Linda do Mundo!</h2>
+                <p class="section-description">A sobrinha mais fofa! Adoro receber fotos dela! 🥰</p>
+                <div class="photo-grid" id="maytePhotos">
+                    <div class="photo-placeholder">
+                        <p>➕ Adicione fotos da Mayte aqui</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Seção: Mais Fotos -->
+        <section class="section more-photos">
+            <div class="container">
+                <h2 class="section-title">📷 Mais Momentos Especiais</h2>
+                <div class="photo-grid" id="morePhotos">
+                    <div class="photo-placeholder">
+                        <p>➕ Adicione mais fotos especiais aqui</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Mensagem Final -->
+        <section class="section final-message">
+            <div class="container">
+                <h2 class="section-title">💝 Para Você</h2>
+                <div class="message-box final-box">
+                    <p class="message-text" id="finalMessage">
+                        Mensagem final especial sobre ela ser forte, os 19 anos, orgulho, etc. 
+                        Edite no script.js na função updateMessages()
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <footer class="footer">
+            <p>Feito com 💕 especialmente para você!</p>
+            <p class="footer-date">13 de Janeiro de 2026</p>
+        </footer>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
