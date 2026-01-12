@@ -11,16 +11,176 @@ function checkDate() {
 function toggleContent() {
     const lockScreen = document.getElementById('lockScreen');
     const mainContent = document.getElementById('mainContent');
+    const quizScreen = document.getElementById('quizScreen');
 
     if (checkDate()) {
-        // É 13 de janeiro - mostra o conteúdo
-        lockScreen.classList.add('hidden');
-        mainContent.classList.remove('hidden');
+        // É 13 de janeiro - verifica se já passou pelo quiz
+        const quizCompleted = localStorage.getItem('quizCompleted') === 'true';
+        
+        if (quizCompleted) {
+            // Quiz já foi completado - mostra o conteúdo
+            lockScreen.classList.add('hidden');
+            quizScreen.classList.add('hidden');
+            mainContent.classList.remove('hidden');
+        } else {
+            // Mostra o quiz
+            lockScreen.classList.add('hidden');
+            mainContent.classList.add('hidden');
+            quizScreen.classList.remove('hidden');
+            initQuiz();
+        }
     } else {
         // Não é 13 de janeiro - mostra tela de bloqueio
         lockScreen.classList.remove('hidden');
         mainContent.classList.add('hidden');
+        quizScreen.classList.add('hidden');
     }
+}
+
+// Perguntas do quiz
+const quizQuestions = [
+    {
+        question: "Qual foi a minha primeira mensagem?",
+        correct: "Quero esse colar pra mim hein",
+        wrong: ["Lindo colar", "Meu deus que estilo musical bom", "veigh baby uh uh"]
+    },
+    {
+        question: "Qual foi o primeiro lugar que a gente saiu?",
+        correct: "Filmore Ipiranga",
+        wrong: ["Filmore Mooca", "Shopping Mooca", "Petshop"]
+    },
+    {
+        question: "Quantos por cento é o nosso match no Spotify?",
+        correct: "97%",
+        wrong: ["98%", "96%", "99%"]
+    },
+    {
+        question: "Qual foi a frase que mais me marcou desde o nosso primeiro encontro?",
+        correct: "eu nao quero que minha vida inteira seja um ato de deixar ir. pelo menos, uma vez, eu quero agarrar-me a algo, pertencer, e nunca mais ter de partir",
+        wrong: ["Veigh Baby", "Rosas são vermelhas, violetas são azuis, mas seu sorriso florescendo é o que enche o meu dia de luz", "I open my eyes"]
+    }
+];
+
+let currentQuestion = 0;
+let userAnswers = [];
+
+// Função para inicializar o quiz
+function initQuiz() {
+    currentQuestion = 0;
+    userAnswers = [];
+    showQuestion(0);
+}
+
+// Função para mostrar a pergunta atual
+function showQuestion(index) {
+    const quizContent = document.getElementById('quizContent');
+    if (!quizContent) return;
+    
+    if (index >= quizQuestions.length) {
+        checkQuizAnswers();
+        return;
+    }
+    
+    const question = quizQuestions[index];
+    const allAnswers = [question.correct, ...question.wrong].sort(() => Math.random() - 0.5);
+    
+    quizContent.innerHTML = `
+        <div class="question-container">
+            <div class="question-number">Pergunta ${index + 1} de ${quizQuestions.length}</div>
+            <h2 class="question-text">${question.question}</h2>
+            <div class="answers-container">
+                ${allAnswers.map((answer, i) => `
+                    <button class="answer-btn" onclick="selectAnswer(${index}, '${answer.replace(/'/g, "\\'")}')">
+                        ${answer}
+                    </button>
+                `).join('')}
+            </div>
+        </div>
+    `;
+}
+
+// Função para selecionar uma resposta
+function selectAnswer(questionIndex, answer) {
+    userAnswers[questionIndex] = answer;
+    
+    // Desabilita todos os botões
+    const buttons = document.querySelectorAll('.answer-btn');
+    buttons.forEach(btn => {
+        btn.disabled = true;
+        if (btn.textContent.trim() === answer) {
+            btn.classList.add('selected');
+        }
+    });
+    
+    // Aguarda um pouco e passa para próxima pergunta
+    setTimeout(() => {
+        showQuestion(questionIndex + 1);
+    }, 1000);
+}
+
+// Função para verificar as respostas
+function checkQuizAnswers() {
+    const quizContent = document.getElementById('quizContent');
+    const quizResult = document.getElementById('quizResult');
+    
+    let correctCount = 0;
+    quizQuestions.forEach((question, index) => {
+        if (userAnswers[index] === question.correct) {
+            correctCount++;
+        }
+    });
+    
+    if (correctCount === quizQuestions.length) {
+        // Todas corretas - libera o site
+        quizContent.innerHTML = '';
+        quizResult.classList.remove('hidden');
+        quizResult.innerHTML = `
+            <div class="result-success">
+                <h2>🎉 Parabéns! Você acertou todas! 🎉</h2>
+                <p>Você realmente me conhece bem! 💕</p>
+                <p class="result-message">Agora você pode ver sua surpresa especial!</p>
+                <button class="unlock-btn" onclick="unlockSite()">Ver Minha Surpresa! ✨</button>
+            </div>
+        `;
+    } else {
+        // Algumas erradas - permite tentar novamente
+        quizContent.innerHTML = '';
+        quizResult.classList.remove('hidden');
+        quizResult.innerHTML = `
+            <div class="result-error">
+                <h2>😅 Quase lá!</h2>
+                <p>Você acertou ${correctCount} de ${quizQuestions.length} perguntas.</p>
+                <p class="result-message">Tente novamente! Você consegue! 💪</p>
+                <button class="retry-btn" onclick="retryQuiz()">Tentar Novamente</button>
+            </div>
+        `;
+    }
+}
+
+// Função para liberar o site
+function unlockSite() {
+    localStorage.setItem('quizCompleted', 'true');
+    const quizScreen = document.getElementById('quizScreen');
+    const mainContent = document.getElementById('mainContent');
+    
+    quizScreen.classList.add('hidden');
+    mainContent.classList.remove('hidden');
+    
+    // Carrega todo o conteúdo
+    updateMessages();
+    addPhotos();
+    addVideo();
+    initScrollAnimations();
+    initCounter();
+}
+
+// Função para tentar novamente
+function retryQuiz() {
+    const quizResult = document.getElementById('quizResult');
+    quizResult.classList.add('hidden');
+    currentQuestion = 0;
+    userAnswers = [];
+    showQuestion(0);
 }
 
 // Função para atualizar as mensagens personalizadas
@@ -353,6 +513,9 @@ function updateCountdown() {
 
 // Inicialização quando a página carrega
 document.addEventListener('DOMContentLoaded', function () {
+    // Para testar o quiz localmente, descomente a linha abaixo para limpar o localStorage:
+    // localStorage.removeItem('quizCompleted');
+    
     toggleContent();
     updateCountdown();
 
@@ -363,20 +526,11 @@ document.addEventListener('DOMContentLoaded', function () {
             // Verifica se já pode liberar
             if (checkDate()) {
                 toggleContent();
-                updateMessages();
-                addPhotos();
-                addVideo();
-                initScrollAnimations();
-                initCounter();
             }
         }, 1000); // Atualiza a cada segundo
     } else {
-        // Se já estiver liberado, carrega tudo normalmente
-        updateMessages();
-        addPhotos();
-        addVideo();
-        initScrollAnimations();
-        initCounter();
+        // Se já estiver liberado, verifica se precisa mostrar quiz ou conteúdo
+        toggleContent();
     }
 
     // Adiciona animação suave ao scroll
